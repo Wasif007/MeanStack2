@@ -5,7 +5,7 @@ module.exports.homeindex=function(req,res)
 }
 module.exports.locationinformation=function(req,res)
 {
-  res.render('index', { title: 'Loaction Information Page' });
+  res.render('locations', { title: 'Loaction Information Page' });
 
 }
 module.exports.reviews=function(req,res)
