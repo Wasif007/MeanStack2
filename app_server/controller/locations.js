@@ -10,6 +10,6 @@ module.exports.locationinformation=function(req,res)
 }
 module.exports.reviews=function(req,res)
 {
-  res.render('index', { title: 'Reviews Page' });
+  res.render('review-page', { title: 'Reviews Page' });
 
 }
