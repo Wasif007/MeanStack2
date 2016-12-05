@@ -1,6 +1,6 @@
 module.exports.homeindex=function(req,res)
 {
-  res.render('index', { title: 'Home Page' });
+  res.render('list-location', { title: 'Home Page' });
 
 }
 module.exports.locationinformation=function(req,res)
