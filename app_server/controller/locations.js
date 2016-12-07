@@ -76,6 +76,10 @@ reviewText: 'It was okay. Coffee wasn\'t great, but the wifi was'
 }
 module.exports.reviews=function(req,res)
 {
-  res.render('review-page', { title: 'Reviews Page' });
+  res.render('review-page', { title: 'Reviews Page' ,
+  	pageHeader:{
+  		title:"Review Page"
+  	}
+});
 
 }
