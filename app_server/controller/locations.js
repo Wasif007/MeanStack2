@@ -31,7 +31,43 @@ module.exports.homeindex=function(req,res)
 }
 module.exports.locationinformation=function(req,res)
 {
-  res.render('locations', { title: 'Loaction Information Page' });
+  res.render('locations', { title: 'Loaction Information Page' ,
+pageHeader:{
+	title:"Starcups"
+},
+location:{
+	name: 'Starcups',
+address: '125 High Street, Reading, RG6 1PS',
+rating: 3,
+facilities: ['Hot drinks', 'Food', 'Premium wifi'],
+coords: {lat: 51.455041, lng: -0.9690884},
+openingTimes: [{
+days: 'Monday - Friday',
+opening: '7:00am',
+closing: '7:00pm',
+closed: false
+},{
+days: 'Saturday',
+opening: '8:00am',
+closing: '5:00pm',
+closed: false
+},{
+days: 'Sunday',
+closed: true
+}],
+reviews: [{
+author: 'Simon Holmes',
+rating: 5,
+timestamp: '16 July 2013',
+reviewText: 'What a great place. I can\'t say enough good thing'
+},{
+author: 'Charlie Chaplin',
+rating: 3,
+timestamp: '16 June 2013',
+reviewText: 'It was okay. Coffee wasn\'t great, but the wifi was'
+}]
+}
+});
 
 }
 module.exports.reviews=function(req,res)
