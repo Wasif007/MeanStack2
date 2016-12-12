@@ -24,3 +24,5 @@ var locationSchema=new mongoose.Schema({
 	openingHours:[openingHoursSchema]
 
 });
+
+mongoose.model('Location',locationSchema);
