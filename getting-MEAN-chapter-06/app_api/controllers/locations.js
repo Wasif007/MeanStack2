@@ -105,7 +105,7 @@ openingTimes:[{
   days:req.body.days1,
   closed:req.body.closed1
 }],
-facilities:req.body.facilities.split(' , ')
+facilities: req.body.facilities.split(",")
 },function(err,locationCreated){
   if(err){
 sendJSONresponse(res,404,err);

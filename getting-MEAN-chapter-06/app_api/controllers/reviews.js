@@ -6,10 +6,51 @@ var sendJSONresponse = function(res, status, content) {
   res.json(content);
 };
 
+
+var doAddReview=function(res,req,response){
+  if(response){
+response.reviews.push({
+author: req.body.author,
+rating: req.body.rating,
+reviewText: req.body.reviewText
+});
+
+response.save(function(err,locationdocument){
+if(err){
+  sendJSONresponse(res,404,err);
+  return;
+}
+else{
+  var reviewToShow;
+  reviewToShow=response.reviews[response.reviews.length-1];
+  sendJSONresponse(res,201,reviewToShow);
+}
+});
+  }
+else{
+  sendJSONresponse(res,404,{"message":"not found location"});
+
+}
+}
 /* POST a new review, providing a locationid */
 /* /api/locations/:locationid/reviews */
 module.exports.reviewsCreate = function(req, res) {
- 
+ var location_req=req.params.locationid;
+ if(location_req)
+ {
+Loc.findById(location_req).select("reviews").exec(function(err,response){
+if(err){
+  sendJSONresponse(res,404,err);
+  return;
+}
+else{
+  doAddReview(res,req,response);
+}
+});
+ }
+ else{
+  sendJSONresponse(res,404,"message:location id was not correct");
+ }
 };
 
 
