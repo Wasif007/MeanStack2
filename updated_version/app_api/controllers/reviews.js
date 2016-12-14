@@ -23,6 +23,7 @@ if(err){
 else{
   var reviewToShow;
   reviewToShow=response.reviews[response.reviews.length-1];
+  changeRating(response._id);
   sendJSONresponse(res,201,reviewToShow);
 }
 });
@@ -31,7 +32,44 @@ else{
   sendJSONresponse(res,404,{"message":"not found location"});
 
 }
+};
+
+var changeRating=function(locationFounds){
+Loc.findById(locationFounds).select('rating reviews').exec(function(err,response){
+if(!err)
+{
+  doAverageRating(response);
 }
+});  
+
+};
+
+var doAverageRating=function(locationzDocument){
+var ratingTotal=0;
+var currentRating,i;
+var ratingAvg=0;
+
+if(locationzDocument.reviews && locationzDocument.reviews.length>0){
+for(var j=0;j<locationzDocument.reviews.length;j++)
+{
+  ratingTotal=ratingTotal+locationzDocument.reviews[j].rating;
+  console.log(ratingTotal);
+}
+ratingAvg=parseInt(ratingTotal/locationzDocument.reviews.length,10);
+locationzDocument.reviews.rating=ratingAvg;
+
+locationzDocument.save(function(err,res){
+  if(!err)
+  {
+    console.log("Average rating updated to", ratingAvg);
+  }
+  else{
+    console.log(err);
+  }
+})
+}
+};
+
 /* POST a new review, providing a locationid */
 /* /api/locations/:locationid/reviews */
 module.exports.reviewsCreate = function(req, res) {
