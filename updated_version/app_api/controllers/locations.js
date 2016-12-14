@@ -119,7 +119,46 @@ sendJSONresponse(res,200,locationCreated);
 
 /* PUT /api/locations/:locationid */
 module.exports.locationsUpdateOne = function(req, res) {
- 
+ if(!req.params.locationid)
+ {
+  sendJSONresponse(res,404,{"message":"not found request parameter of location id"});
+  return;
+ }
+Loc.findById(req.params.locationid).select('-reviews -rating').exec(function(err,response){
+if(!response)
+{
+  sendJSONresponse(res,404,{"message":"not found location with specified id"});
+  return;
+}
+else if(err){
+sendJSONresponse(res,404,err);
+return;
+}
+response.name=req.body.name;
+response.address=req.body.address;
+response.facilities=req.body.facilities.split(",");
+response.openingTimes=[{
+  days:req.body.days1,
+  opening:req.body.opening1,
+  closing:req.body.closing1,
+  closed:req.body.closed1
+}];
+coords:[parseFloat(req.body.lng),parseFloat(req.body.lat)];
+
+response.save(function(err,respose){
+  if(!err)
+  {
+    sendJSONresponse(res,200,respose);
+  }
+  else
+  {
+    sendJSONresponse(res,401,err);
+  }
+})
+
+
+});
+
 };
 
 /* DELETE /api/locations/:locationid */
