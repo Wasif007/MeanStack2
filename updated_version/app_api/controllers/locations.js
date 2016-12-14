@@ -174,6 +174,11 @@ if(err)
   sendJSONresponse(res,404,err);
   return;
  }
+ if(!respnse)
+ {
+  sendJSONresponse(res,404,{"message":"Not found with respected id location"});
+  return;
+ }
  else{
   sendJSONresponse(res,204,{"message":"deleted document"});
  }

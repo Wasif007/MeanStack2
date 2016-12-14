@@ -194,5 +194,47 @@ review_to_find.reviewText = req.body.reviewText;
 };
 // app.delete('/api/locations/:locationid/reviews/:reviewid'
 module.exports.reviewsDeleteOne = function(req, res) {
-
+ if (!req.params.locationid || !req.params.reviewid) {
+    sendJSONresponse(res, 404, {
+      "message": "Not found, locationid and reviewid are both required"
+    });
+    return;
+  }
+  Loc
+    .findById(req.params.locationid)
+    .select('reviews')
+    .exec(
+      function(err, location) {
+        if (!location) {
+          sendJSONresponse(res, 404, {
+            "message": "locationid not found"
+          });
+          return;
+        } else if (err) {
+          sendJSONresponse(res, 400, err);
+          return;
+        }
+        if (location.reviews && location.reviews.length > 0) {
+          if (!location.reviews.id(req.params.reviewid)) {
+            sendJSONresponse(res, 404, {
+              "message": "reviewid not found"
+            });
+          } else {
+            location.reviews.id(req.params.reviewid).remove();
+            location.save(function(err) {
+              if (err) {
+                sendJSONresponse(res, 404, err);
+              } else {
+                updateAverageRating(location._id);
+                sendJSONresponse(res, 204, null);
+              }
+            });
+          }
+        } else {
+          sendJSONresponse(res, 404, {
+            "message": "No review to delete"
+          });
+        }
+      }
+  );
 };
