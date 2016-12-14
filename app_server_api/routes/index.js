@@ -6,10 +6,10 @@ var ctrl_review_api=require('../controller/reviewss');
 
 //Locations
 router.get('/location',ctrl_location_api.locationsListByDistance);
-router.get('/location/:locationid',ctrl_location_api.locationReadOne);
-router.post('/location',ctrl_location_api.locationCreate);
-router.put('/location/:locationid',ctrl_location_api.locationUpdateOne);
-router.delete('/location/:locationid',ctrl_location_api.locationDeleteOne);
+router.get('/location/:locationid',ctrl_location_api.locationsReadOne);
+router.post('/location',ctrl_location_api.locationsCreate);
+router.put('/location/:locationid',ctrl_location_api.locationsUpdateOne);
+router.delete('/location/:locationid',ctrl_location_api.locationsDeleteOne);
 
 //Reviews
 router.get('/location/:locationid/reviews/:reviewid',ctrl_review_api.reviewReadOne);
