@@ -37,8 +37,16 @@ module.exports.locationsListByDistance = function(req, res) {
     maxDistance: theEarth.getRadsFromDistance(maxDistance),
     num: 10
   };
-  
+  if(!lng || !lat || !maxDistance)
+  {
+    sendJSONresponse(res,404,{"message":"missing parameters :Required lng lat and maxDistance"});
+    return;
+  }
   Loc.geoNear(point, geoOptions, function(err, results, stats) {
+    if(err){
+      sendJSONresponse(res,404,err);
+      return;
+    }
     var locations=[];
     results.forEach(function(object){
       console.log(object.obj);
