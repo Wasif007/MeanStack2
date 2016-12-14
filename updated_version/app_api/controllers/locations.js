@@ -163,5 +163,20 @@ response.save(function(err,respose){
 
 /* DELETE /api/locations/:locationid */
 module.exports.locationsDeleteOne = function(req, res) {
- 
+ if(!req.params.locationid)
+ {
+  sendJSONresponse(res,404,{"message":"not provided the location id"});
+  return;
+ }
+ Loc.findByIdAndRemove(req.params.locationid).exec(function(err,respnse){
+if(err)
+{
+  sendJSONresponse(res,404,err);
+  return;
+ }
+ else{
+  sendJSONresponse(res,204,{"message":"deleted document"});
+ }
+ });
+
 };
