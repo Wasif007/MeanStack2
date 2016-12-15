@@ -86,6 +86,25 @@ var _formatDistance=function(distance_toFormat)
 return updated+units;
 
 }
+
+var _sendDetailError=function(res,req,responseq)
+{
+    var title, content;
+if (responseq === 404) {
+title = "404, page not found";
+content = "Oh dear. Looks like we can't find this page. Sorry.";
+} else {
+title = responseq + ", something's gone wrong";
+content = "Something, somewhere, has gone just a little bit wrong.";
+}
+res.status(responseq);
+res.render('generic-text', {
+title : title,
+content : content
+});
+};
+
+
 /* GET 'Location info' page */
 module.exports.locationInfo = function(req, res) {
   var requestOptions,specific_url;
@@ -97,6 +116,7 @@ json : {}
     };
 
 requests(requestOptions,function(err,response,body){
+    if(response.statusCode===200){
     var data;
     data=body;
     data.coord={
@@ -104,6 +124,10 @@ requests(requestOptions,function(err,response,body){
 lat:body.coord[1]
     }
    renderingDetailPage(req,res,data);
+   }
+   else{
+    _sendDetailError(res,req,response.statusCode);
+   }
 });
 }
 
