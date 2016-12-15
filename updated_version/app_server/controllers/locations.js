@@ -1,9 +1,9 @@
-var request = require('request');
+var requests = require('request');
 var apiOptions = {
 server : "http://localhost:3000"
 };
 
-var renderingHomePage=function(req,res)
+var renderingHomePage=function(req,res,responseBody)
 {
     res.render('locations-list', {
         title: 'Loc8r - find a place to work with wifi',
@@ -12,32 +12,54 @@ var renderingHomePage=function(req,res)
             strapline: 'Find places to work with wifi near you!'
         },
         sidebar: "Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.",
-        locations: [{
-            name: 'Starcups',
-            address: '125 High Street, Reading, RG6 1PS',
-            rating: 3,
-            facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-            distance: '100m'
-        }, {
-            name: 'Cafe Hero',
-            address: '125 High Street, Reading, RG6 1PS',
-            rating: 4,
-            facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-            distance: '200m'
-        }, {
-            name: 'Burger Queen',
-            address: '125 High Street, Reading, RG6 1PS',
-            rating: 2,
-            facilities: ['Food', 'Premium wifi'],
-            distance: '250m'
-        }]
+        locations: responseBody
     });
 }
 /* GET 'home' page */
 module.exports.homelist = function(req, res) {
-    renderingHomePage(req,res);
+    var requestOptions,specific_url;
+    specific_url="/api/locations";
+    requestOptions={
+url : apiOptions.server + specific_url,
+method : "GET",
+json : {},
+qs : {
+lng : -0.7992599,
+lat : 51.378091,
+maxDistance : 20
+}
+    };
+
+requests(requestOptions,function(err,response,body){
+    var data;
+    data=body;
+
+    for(var i=0;i<data.length;i++)
+    {
+        data[i].distance=_formatDistance(data[i].distance);
+    }
+    renderingHomePage(req,res,data);
+
+});
+    
+
 };
 
+var _formatDistance=function(distance_toFormat)
+{
+    var updated,units;
+    if(distance_toFormat>1)
+    {
+        updated=parseFloat(distance_toFormat).toFixed(1);
+        units=" Km";
+    }
+    else{
+        updated=parseFloat(distance_toFormat*1000,10);
+        units=" m";
+    }
+return updated+units;
+
+}
 /* GET 'Location info' page */
 module.exports.locationInfo = function(req, res) {
     res.render('location-info', {
