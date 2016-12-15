@@ -131,12 +131,43 @@ lat:body.coord[1]
 });
 }
 
-/* GET 'Add review' page */
-module.exports.addReview = function(req, res) {
+var renderingReviewPage=function(req,res,bodys)
+{
     res.render('location-review-form', {
-        title: 'Review Starcups on Loc8r',
+        title: 'Review ' +bodys.name+' on Loc8r',
         pageHeader: {
-            title: 'Review Starcups'
+            title: 'Review'+bodys.name
         }
     });
+}
+/* GET 'Add review' page */
+module.exports.addReview = function(req, res) {
+      var requestOptions,specific_url;
+    specific_url="/api/locations/"+req.params.locationid;
+    requestOptions={
+url : apiOptions.server + specific_url,
+method : "GET",
+json : {}
+    };
+
+requests(requestOptions,function(err,response,body){
+    if(response.statusCode===200){
+    var data;
+    data=body;
+    data.coord={
+        lng:body.coord[0],
+lat:body.coord[1]
+    }
+    renderingReviewPage(req,res,data);
+   }
+   else{
+    _sendDetailError(res,req,response.statusCode);
+   }
+});
+   
 };
+
+module.exports.updateReview=function(req,res)
+{
+
+}
