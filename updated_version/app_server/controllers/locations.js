@@ -11,7 +11,7 @@ var renderingDetailPage=function(req,res,responseBodys)
             title: responseBodys.name
         },
         sidebar: {
-            context: 'is on Loc8r because it has accessible wifi and space to sit down with your laptop and get some work done.',
+            context: 'is on Nearby Location because it has accessible wifi and space to sit down with your laptop and get some work done.',
             callToAction: 'If you\'ve been and you like it - or if you don\'t - please leave a review to help other people just like you.'
         },
         location:responseBodys
@@ -29,12 +29,12 @@ var renderingHomePage=function(req,res,responseBody)
         message="No content to display";
     }
     res.render('locations-list', {
-        title: 'Loc8r - find a place to work with wifi',
+        title: 'Nearby Location - find a place to work with wifi',
         pageHeader: {
-            title: 'Loc8r',
+            title: 'Nearby Location',
             strapline: 'Find places to work with wifi near you!'
         },
-        sidebar: "Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.",
+        sidebar: "Looking for wifi and a seat? Nearby Location helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Nearby Location help you find the place you're looking for.",
         locations: responseBody,
         message:message
     });
@@ -134,7 +134,7 @@ lat:body.coord[1]
 var renderingReviewPage=function(req,res,bodys)
 {
     res.render('location-review-form', {
-        title: 'Review ' +bodys.name+' on Loc8r',
+        title: 'Review ' +bodys.name+' on Nearby Location',
         pageHeader: {
             title: 'Review'+bodys.name
         },
