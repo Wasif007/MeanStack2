@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html >
+<html ng-app>
 <head>
 <meta charset="utf-8">
 <title>Angular binding test</title>
+<script type="text/javascript" src="angular.min.js"></script>
 </head>
 <body>
-<input />
-<h1>Hello </h1>
+<input ng-model="myInput"/>
+<h1>Hello {{myInput}}</h1>
 </body>
 </html>
