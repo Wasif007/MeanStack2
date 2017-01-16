@@ -17,9 +17,9 @@ var renderingDetailPage=function(req,res,responseBodys)
         location:responseBodys
     }); 
 }
-var renderingHomePage=function(req,res,responseBody)
+var renderingHomePage=function(req,res)
 {
-    var message;
+/*    var message;
     if(!(responseBody instanceof Array)){
         responseBody=[];
         message="Api issue";
@@ -28,20 +28,20 @@ var renderingHomePage=function(req,res,responseBody)
     {
         message="No content to display";
     }
-    res.render('locations-list', {
+  */  res.render('locations-list', {
         title: 'Nearby Location - find a place to work with wifi',
         pageHeader: {
             title: 'Nearby Location',
             strapline: 'Find places to work with wifi near you!'
         },
         sidebar: "Looking for wifi and a seat? Nearby Location helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Nearby Location help you find the place you're looking for.",
-        locations: responseBody,
-        message:message
+        //locations: responseBody,
+        //message:message
     });
 }
 /* GET 'home' page */
 module.exports.homelist = function(req, res) {
-    var requestOptions,specific_url;
+    /*var requestOptions,specific_url;
     specific_url="/api/locations";
     requestOptions={
 url : apiOptions.server + specific_url,
@@ -63,10 +63,10 @@ if(response.statusCode===200 && data.length)
     {
         data[i].distance=_formatDistance(data[i].distance);
     }
- }
-    renderingHomePage(req,res,data);
+ }*/
+    renderingHomePage(req,res);
 
-});
+//});
     
 
 };
