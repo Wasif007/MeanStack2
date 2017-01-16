@@ -42,8 +42,17 @@ _id: '5370a35f2536f6785f8dfb6b'
 }]};
 };
 
+var ratingStars = function () {
+return {
+scope: {
+thisRating : '=ratingss'
+},
+templateUrl : '/angular/rating-stars.html'
+};
+};
 angular
   .module('loc8rApp')
   .controller('locationListCtrl', locationListCtrl)
-  .filter('formatDistance',formatDistance);
+  .filter('formatDistance',formatDistance)
+  .directive('ratingStars',ratingStars);
 
