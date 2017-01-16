@@ -23,23 +23,21 @@ return "?";
 };
 }
 
-var locationListCtrl = function ($scope) {
-$scope.data = {
-locations: [{
-name: 'Burger King',
-address: '125 High Street, Johar Town, Lahore',
-rating: 3,
-facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-distance: '0.296456',
-_id: '5370a35f2536f6785f8dfb6a'
-},{
-name: 'Hardees',
-address: '250 High Street, Garden Town, Karachi',
-rating: 5,
-facilities: ['Hot drinks', 'Free Food', 'Alcoholic drinks'],
-distance: '0.7865456',
-_id: '5370a35f2536f6785f8dfb6b'
-}]};
+var locationListCtrl = function ($scope,loc8rDatas) {
+  $scope.message = "Searching for nearby places";
+loc8rDatas
+.success(function(data) {
+$scope.message = data.length > 0 ? "" : "No locations found";
+$scope.data = { locations: data };
+})
+.error(function (e) {
+$scope.message = "Sorry, something's gone wrong ";
+});
+
+};
+
+var loc8rData = function ($http) {
+return $http.get('/api/locations?lng=-0.9&lat=51.3&maxDistance=20');
 };
 
 var ratingStars = function () {
@@ -54,5 +52,6 @@ angular
   .module('loc8rApp')
   .controller('locationListCtrl', locationListCtrl)
   .filter('formatDistance',formatDistance)
-  .directive('ratingStars',ratingStars);
+  .directive('ratingStars',ratingStars)
+  .service('loc8rDatas',loc8rData);
 
